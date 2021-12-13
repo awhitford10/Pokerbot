@@ -9,11 +9,12 @@ class Player():
         return f'Player name:{self.name} \nPlayer Money:{self.money}\nPlayer hand:{self.hand}'
 
     def bet(self, amount):
-        if amount <= self.money:
-            self.money -= amount
-            return(amount)
-        elif amount > self.money:
-            print('Not enough money for bet.')
+        while True:
+            if amount <= self.money:
+                self.money -= amount
+                return(amount)
+            elif amount > self.money:
+                print('Not enough money for bet.')
 
     def fold(self):
         discard = self.hand

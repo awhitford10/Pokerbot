@@ -11,13 +11,14 @@ class TexasHoldem():
             'AC','2C','3C','4C','5C','6C','7C','8C','9C','10C','JC','QC','KC',]
         self.discard = []
         self.players = {}
+        self.losing_players = {}
         self.community_cards = []
         self.pot = 0
         self.starting_money = 1000
 
 
     def set_players(self):
-        # ask for user input and create instances of player classes based off names, give each player $1000
+        # ask for user input and create instances of player classes based off names, give each player starting money
         count = 1
         while len(self.players) < 6:
             name = input(f'\nInput player {count} name.\nType "n" to continue with set players \nThere can be 2 to 5 players.\n')
@@ -36,6 +37,11 @@ class TexasHoldem():
             self.player_hands = []
             self.set_players()
 
+    
+
+    def bet_round(self):
+        pass                  
+
 
 
     def shuffle(self):
@@ -49,16 +55,21 @@ class TexasHoldem():
             for player in players:
                 players[player].hand.append(self.deck.pop())
     
-    def flop(self):
-        # sends three cards from the deck to the community cards
-        for x in range(3):
+    def deck_to_community(self, number):
+        # sends cards from the deck to the community cards
+        for x in range(number):
             self.community_cards.append(self.deck.pop())
 
     def end_round(self):
-        #Put all players hands in discard and put all cards on table in discard
+        # Put all players hands in discard and put all cards on table in discard
+        # Check if anyone has lost, remove from active players
         self.discard += self.community_cards
         self.community_cards = []
         for player in self.players:
             self.discard += self.players[player].hand
-            self.players[player].hand = []        
+            self.players[player].hand = []  
+            if self.players[player].money == 0:
+                self.losing_players.append(self.players.pop(player))
+
+
 
